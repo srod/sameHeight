@@ -1,4 +1,4 @@
-﻿/* sameHeight - jQuery plugin
+/* sameHeight - jQuery plugin
  * 
  * This plugin is used to set same height on elements on a web page.
  * 
@@ -17,22 +17,21 @@
  
 (function($){
 	$.fn.sameHeight = function(options){
-            var defaults = {
-            };
-            
-            settings = $.extend(defaults, options);
-            
-            var maxHeight = 0;
-            
-            this.each(function(){
-                maxHeight = Math.max(maxHeight, $(this).height());
-            });
-            
-		    this.each(function(){
-		        jQuery(this).css({ height: maxHeight + "px" });
-		    });
-            
-            return maxHeight;
-		}
-	});
+        var defaults = {
+        };
+        
+        settings = $.extend(defaults, options);
+        
+        var maxHeight = 0;
+        
+        this.each(function(){
+            maxHeight = Math.max(maxHeight, $(this).height());
+        });
+        
+	    this.each(function(){
+	        jQuery(this).css({ height: maxHeight + "px" });
+	    });
+        
+        return maxHeight;
+	};
 })(jQuery);
