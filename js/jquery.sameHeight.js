@@ -3,11 +3,20 @@
  * This plugin is used to set same height on elements on a web page.
  * 
  * How to use:
- * $("#myElement .elements").sameHeight();
+ * $("#myElement .elements").sameHeight({
+ * 		numberPerLine: 3,
+ * 		classFirst: "first",
+ * 		classLast: "last"
+ * });
  * 
- * Developed with jQuery version: 1.4.3
+ * Usage for no lines :
  * 
- * Version: 0.1
+ * numberPerLine: 0
+ * 
+ * 
+ * Developed with jQuery version: 1.4.4
+ * 
+ * Version: 0.2
  * Name: sameHeight
  * 
  * Author: Rodolphe Stoclin
@@ -18,20 +27,54 @@
 (function($){
 	$.fn.sameHeight = function(options){
         var defaults = {
+        	numberPerLine: 3,
+        	classFirst: "first",
+        	classLast: "last"
         };
         
         settings = $.extend(defaults, options);
         
-        var maxHeight = 0;
+        // How many lines ?
+        var totalItems = this.size();
+        var loop = totalItems / settings.numberPerLine;
         
-        this.each(function(){
-            maxHeight = Math.max(maxHeight, $(this).height());
-        });
+        var setHeight = function(elt, k){
+	        var maxHeight = 0, j = 0;
+			var start = (k == 0) ? k : k * settings.numberPerLine;
+	        var end = (settings.numberPerLine === 0) ? totalItems : start + settings.numberPerLine;
+        	
+	        elt.slice(start, end).each(function(){
+	            maxHeight = Math.max(maxHeight, $(this).height());
+	        });
+	        
+		    elt.slice(start, end).each(function(){
+		        jQuery(this).css({ height: maxHeight + "px" });
+		        
+		        // Set first class
+	            if(j === 0 && settings.classFirst){
+	            	jQuery(this).addClass(settings.classFirst);
+	            }
+		        
+		        // Set last class
+		        var last = (settings.numberPerLine === 0) ? totalItems : settings.numberPerLine;
+	            if((j+1) === last  && settings.classLast){
+	            	jQuery(this).addClass(settings.classLast);
+	            	j = -1;
+	            }
+	            
+	            j++;
+		    });
+        };
         
-	    this.each(function(){
-	        jQuery(this).css({ height: maxHeight + "px" });
-	    });
+        if(settings.numberPerLine > 0){
+	        // For each lines
+	        for(k=0; k<loop; k++){
+	        	setHeight(this, k);
+	        }
+        } else {
+	        setHeight(this, 0);
+        }
         
-        return maxHeight;
+        return true;
 	};
 })(jQuery);
