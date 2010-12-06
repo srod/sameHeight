@@ -16,7 +16,7 @@
  * 
  * Developed with jQuery version: 1.4.4
  * 
- * Version: 0.2
+ * Version: 0.3
  * Name: sameHeight
  * 
  * Author: Rodolphe Stoclin
@@ -27,6 +27,7 @@
 (function($){
 	$.fn.sameHeight = function(options){
         var defaults = {
+        	noResize: false,
         	numberPerLine: 3,
         	classFirst: "first",
         	classLast: "last"
@@ -43,12 +44,14 @@
 			var start = (k == 0) ? k : k * settings.numberPerLine;
 	        var end = (settings.numberPerLine === 0) ? totalItems : start + settings.numberPerLine;
         	
-	        elt.slice(start, end).each(function(){
-	            maxHeight = Math.max(maxHeight, $(this).height());
-	        });
+        	if(!settings.noResize){
+		        elt.slice(start, end).each(function(){
+		            maxHeight = Math.max(maxHeight, $(this).height());
+		        });
+	        }
 	        
 		    elt.slice(start, end).each(function(){
-		        jQuery(this).css({ height: maxHeight + "px" });
+		        if(!settings.noResize) jQuery(this).css({ height: maxHeight + "px" });
 		        
 		        // Set first class
 	            if(j === 0 && settings.classFirst){
