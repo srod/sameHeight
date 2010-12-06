@@ -4,6 +4,7 @@
  * 
  * How to use:
  * $("#myElement .elements").sameHeight({
+ * 		noResize: false,
  * 		numberPerLine: 3,
  * 		classFirst: "first",
  * 		classLast: "last"
